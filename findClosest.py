@@ -1,7 +1,7 @@
 import json
+import csv
 
 from getPinYin import get_pinyin
-
 
 
 def computeScore(pinyin_L1, pinyin_L2, words1, words2, a=1, b=1, c=2, pp=1, pt=1, ppl=1, align=2):
@@ -103,14 +103,14 @@ def computeScore(pinyin_L1, pinyin_L2, words1, words2, a=1, b=1, c=2, pp=1, pt=1
 pinyin_idiom_f = './data/dictionaries/pinyin_idiom.json'
 
 
-def compareWords(words, pinyin_idiom_f = pinyin_idiom_f):
+def compareWords(words, align=2, pinyin_idiom_f = pinyin_idiom_f):
     words_pinyin = get_pinyin(words)
     # print(f'{words_pinyin = }')
 
     max_score = 0
     closest_words = ''
 
-    with open(pinyin_idiom_f, 'r', encoding='utf-8') as f:
+    with open(pinyin_idiom_f, 'r', encoding='utf-8-sig') as f:
         json_dict = json.load(f)
         # print(f'{type(json_dict) = }')
 
@@ -118,7 +118,7 @@ def compareWords(words, pinyin_idiom_f = pinyin_idiom_f):
             d_it_pinyin = json_dict[d_it]
             # print(f'{d_it_pinyin = }')
             # print(f'{words_pinyin = }')
-            score = computeScore(words_pinyin, d_it_pinyin, words, d_it)
+            score = computeScore(words_pinyin, d_it_pinyin, words, d_it, align=align)
             # print(f'{score = }')
 
             if score: 
@@ -132,8 +132,42 @@ def compareWords(words, pinyin_idiom_f = pinyin_idiom_f):
 
 
 
+def writeCSV(csv_path, list, encode='utf-8'):
+    with open(csv_path, 'w', encoding=encode, newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(list)
+        f.close()
+
+
+
+
 if __name__ == "__main__":
-    idom = '与出三竿'
-    print(f'{compareWords(idom) = }')
+    # idom = '与出三竿'
+    # print(f'{compareWords(idom) = }')
+
+    test_list = [
+        '日出三竿',
+        '日出三杆',
+        '日出三甘',
+
+        '触类旁通',
+        '触类庞通',
+        '触类螃通',
+
+        '放歌纵酒',
+        '放歌纵久',
+        '放歌纵九',
+
+        '精兵强将',
+        '精冰强将',
+        '精宾强将',
+    ]
+
+    # for it in test_list:
+    #     print(it + ': ', f'{compareWords(it) = }')
+    
+    it = '青果预览'
+    print(f'{compareWords(it, align=2) = }')
+
 
 

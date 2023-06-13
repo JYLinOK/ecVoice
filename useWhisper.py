@@ -5,9 +5,9 @@ def getHanWord(audio_F, model='l'):
     if model == 't':
         Model = whisper.load_model("tiny")  # VRAM  ~= 1GB -> 1-2GB
     elif model == 'b':
-        Model = whisper.load_model("base")  # VRAM  ~= 1GB -> 2-4GB
+        Model = whisper.load_model("base")  # VRAM  ~= 1GB -> 1-2GB
     elif model == 's':
-        Model = whisper.load_model("small")  # VRAM  ~= 2GB -> 4-6GB
+        Model = whisper.load_model("small")  # VRAM  ~= 2GB -> 2-4GB
     elif model == 'm':
         Model = whisper.load_model("medium")  # VRAM  ~= 5GB -> 6-8GB
     elif model == 'l':
